@@ -133,6 +133,7 @@ var Slider = React.createClass({
     var unconfined = gestureState.dx + this.state.pastOne;
     var bottom     = 0;
     var top        = (this.state.positionTwo - this.stepLength) || this.props.sliderLength;
+    top        = (this.state.positionTwo - (this.props.minMaxDistance || 0)) || this.props.sliderLength;//这里设置个另外的props去控制两个marker之间的距离
     var confined   = unconfined < bottom ? bottom : (unconfined > top ? top : unconfined);
     var value      = converter.positionToValue(this.state.positionOne, this.optionsArray, this.props.sliderLength);
 
@@ -159,6 +160,7 @@ var Slider = React.createClass({
   moveTwo(gestureState) {
     var unconfined  = gestureState.dx + this.state.pastTwo;
     var bottom      = this.state.positionOne + this.stepLength;
+    bottom      = this.state.positionOne + (this.props.minMaxDistance || 0);//这里设置个另外的props去控制两个marker之间的距离
     var top         = this.props.sliderLength;
     var confined    = unconfined < bottom ? bottom : (unconfined > top ? top : unconfined);
     var value       = converter.positionToValue(this.state.positionTwo, this.optionsArray, this.props.sliderLength);
