@@ -136,9 +136,9 @@ var Slider = React.createClass({
     top        = (this.state.positionTwo - (this.props.minMaxDistance || 0)) || this.props.sliderLength;//这里设置个另外的props去控制两个marker之间的距离
     var confined   = unconfined < bottom ? bottom : (unconfined > top ? top : unconfined);
     var value      = converter.positionToValue(this.state.positionOne, this.optionsArray, this.props.sliderLength);
-
     var slipDisplacement = this.props.touchDimensions.slipDisplacement;
 
+    this.props.leftItemDidMove && this.props.leftItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
       this.setState({
         positionOne: confined
@@ -166,6 +166,7 @@ var Slider = React.createClass({
     var value       = converter.positionToValue(this.state.positionTwo, this.optionsArray, this.props.sliderLength);
     var slipDisplacement = this.props.touchDimensions.slipDisplacement;
 
+    this.props.rightItemDidMove && this.props.rightItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
       this.setState({
         positionTwo: confined
