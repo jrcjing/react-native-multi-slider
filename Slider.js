@@ -57,7 +57,6 @@ var Slider = React.createClass({
     this.stepLength = this.props.sliderLength/this.optionsArray.length;
 
     var initialValues = this.props.values.map(value => converter.valueToPosition(value,this.optionsArray,this.props.sliderLength));
-
     return {
       pressedOne: true,
       valueOne: this.props.values[0],
@@ -103,7 +102,6 @@ var Slider = React.createClass({
     this.stepLength = this.props.sliderLength/this.optionsArray.length;
 
     var initialValues = values.map(value => converter.valueToPosition(value,this.optionsArray,this.props.sliderLength));
-
     this.setState({
       pressedOne: true,
       valueOne: values[0],
@@ -140,8 +138,16 @@ var Slider = React.createClass({
 
     this.props.leftItemDidMove && this.props.leftItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
+      value = converter.positionToValue(confined, this.optionsArray, this.props.sliderLength);
       this.setState({
-        positionOne: confined
+        positionOne: confined,
+        valueOne: value,
+      }, () => {
+        var change = [this.state.valueOne];
+        if (this.state.valueTwo) {
+          change.push(this.state.valueTwo);
+        }
+        this.props.onValuesChange(change);
       });
     }
     if ( value !== this.state.valueOne ) {
@@ -168,8 +174,12 @@ var Slider = React.createClass({
 
     this.props.rightItemDidMove && this.props.rightItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
+      value = converter.positionToValue(confined, this.optionsArray, this.props.sliderLength);
       this.setState({
-        positionTwo: confined
+        positionTwo: confined,
+        valueTwo: value,
+      }, () => {
+        this.props.onValuesChange([this.state.valueOne,this.state.valueTwo]);
       });
     }
     if ( value !== this.state.valueTwo ) {
