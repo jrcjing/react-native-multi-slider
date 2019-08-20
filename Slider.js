@@ -136,8 +136,8 @@ var Slider = React.createClass({
     var value      = converter.positionToValue(this.state.positionOne, this.optionsArray, this.props.sliderLength);
     var slipDisplacement = this.props.touchDimensions.slipDisplacement;
 
-    this.props.leftItemDidMove && this.props.leftItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
+      this.props.leftItemDidMove && this.props.leftItemDidMove(confined);
       value = converter.positionToValue(confined, this.optionsArray, this.props.sliderLength);
       this.setState({
         positionOne: confined,
@@ -172,8 +172,8 @@ var Slider = React.createClass({
     var value       = converter.positionToValue(this.state.positionTwo, this.optionsArray, this.props.sliderLength);
     var slipDisplacement = this.props.touchDimensions.slipDisplacement;
 
-    this.props.rightItemDidMove && this.props.rightItemDidMove(confined);
     if (Math.abs(gestureState.dy) < slipDisplacement || !slipDisplacement) {
+      this.props.rightItemDidMove && this.props.rightItemDidMove(confined);
       value = converter.positionToValue(confined, this.optionsArray, this.props.sliderLength);
       this.setState({
         positionTwo: confined,
